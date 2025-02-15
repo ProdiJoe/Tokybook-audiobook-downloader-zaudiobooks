@@ -1,4 +1,4 @@
-import os , requests
+import os , requests , re
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
@@ -11,6 +11,7 @@ soup = BeautifulSoup(response.text, "lxml")
 
 # Extract audiobook title
 book_title = soup.find("div",{"class":"inside-page-hero grid-container grid-parent"}).find("h1").text.strip()
+book_title = re.sub(r'[<>:"/\\|?*]', "_", book_title)
 print(f"downloading {book_title}")
 # make a folder with book title
 os.makedirs(f"{book_title}", exist_ok=True)
